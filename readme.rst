@@ -1,71 +1,102 @@
-###################
-What is CodeIgniter
-###################
 
-CodeIgniter is an Application Development Framework - a toolkit - for people
-who build web sites using PHP. Its goal is to enable you to develop projects
-much faster than you could if you were writing code from scratch, by providing
-a rich set of libraries for commonly needed tasks, as well as a simple
-interface and logical structure to access these libraries. CodeIgniter lets
-you creatively focus on your project by minimizing the amount of code needed
-for a given task.
+# Codeigniter 3 Template
 
-*******************
-Release Information
-*******************
 
-This repo contains in-development code for future releases. To download the
-latest stable release please visit the `CodeIgniter Downloads
-<https://codeigniter.com/download>`_ page.
 
-**************************
-Changelog and New Features
-**************************
+## Features
 
-You can find a list of all changes for each release in the `user
-guide change log <https://github.com/bcit-ci/CodeIgniter/blob/develop/user_guide_src/source/changelog.rst>`_.
+- Service layer
+- Authentication and Authorization
+- Slice templating like laravel blade
+- Login
+- Dashboard admin panel
 
-*******************
-Server Requirements
-*******************
 
-PHP version 5.6 or newer is recommended.
+## Installation
 
-It should work on 5.3.7 as well, but we strongly advise you NOT to run
-such old versions of PHP, because of potential security and performance
-issues, as well as missing features.
+Clone this project with git
 
-************
-Installation
-************
+```bash
+  git clone https://github.com/arisannjayaa/codeigniter-template.git
+```
+Config base_url on file config
 
-Please see the `installation section <https://codeigniter.com/userguide3/installation/index.html>`_
-of the CodeIgniter User Guide.
+```bash
+  $config['base_url'] = 'http://your-domain.test';
+```
+Create database and config file for database
 
-*******
-License
-*******
+```bash
+$db['default'] = array(
+	'dsn'	=> '',
+	'hostname' => 'localhost',
+	'username' => 'root',
+	'password' => '',
+	'database' => 'your_database',
+	'dbdriver' => 'mysqli',
+	'dbprefix' => '',
+	'pconnect' => FALSE,
+	'db_debug' => (ENVIRONMENT !== 'production'),
+	'cache_on' => FALSE,
+	'cachedir' => '',
+	'char_set' => 'utf8',
+	'dbcollat' => 'utf8_general_ci',
+	'swap_pre' => '',
+	'encrypt' => FALSE,
+	'compress' => FALSE,
+	'stricton' => FALSE,
+	'failover' => array(),
+	'save_queries' => TRUE
+);
+```
 
-Please see the `license
-agreement <https://github.com/bcit-ci/CodeIgniter/blob/develop/user_guide_src/source/license.rst>`_.
+Run migration on browser
 
-*********
-Resources
-*********
+```bash
+  http://your-domain.test/migrate
+```
+## Usage/Examples
 
--  `User Guide <https://codeigniter.com/docs>`_
--  `Contributing Guide <https://github.com/bcit-ci/CodeIgniter/blob/develop/contributing.md>`_
--  `Language File Translations <https://github.com/bcit-ci/codeigniter3-translations>`_
--  `Community Forums <http://forum.codeigniter.com/>`_
--  `Community Wiki <https://github.com/bcit-ci/CodeIgniter/wiki>`_
--  `Community Slack Channel <https://codeigniterchat.slack.com>`_
+Use services
 
-Report security issues to our `Security Panel <mailto:security@codeigniter.com>`_
-or via our `page on HackerOne <https://hackerone.com/codeigniter>`_, thank you.
+a. Create file services on application/services/
 
-***************
-Acknowledgement
-***************
+b. Copy this example services
+```php
+<?php
 
-The CodeIgniter team would like to thank EllisLab, all the
-contributors to the CodeIgniter project and you, the CodeIgniter user.
+class YourService extends MY_Service
+{
+    public function hello_world()
+    {
+        return "Hello world";
+    }
+}
+```
+c. Use service on controller
+
+```php
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class LoginController extends CI_Controller {
+
+    public function __construct()
+    {
+        parent::__construct();
+		$this->load->service('YourService', 'yourService');
+    }
+
+    public function index()
+    {
+		return $this->yourService->hello_world();
+    }
+}
+```
+
+## Authors
+
+- [@binhnlt](https://github.com/binhnlt/) - Layer Services
+- [@irfaardy](https://github.com/irfaardy/) - Auth Library
+- [@gustmartins](https://github.com/gustmartins/) - Slice Library
+
