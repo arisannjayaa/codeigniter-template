@@ -15,6 +15,25 @@ class Migration_Users extends CI_Migration
                 'unsigned'          => TRUE,
                 'auto_increment'    => TRUE
             ],
+			'attachment' => [
+				'type'              => 'VARCHAR',
+				'constraint'        => '255',
+				'null'				=> true,
+				'default'			=> null
+			],
+			'first_name' => [
+				'type'              => 'VARCHAR',
+				'constraint'        => '255'
+			],
+			'last_name' => [
+				'type'              => 'VARCHAR',
+				'constraint'        => '255',
+				'null'				=> true
+			],
+			'telephone' => [
+				'type'              => 'VARCHAR',
+				'constraint'        => '255'
+			],
             'username' => [
                 'type'              => 'VARCHAR',
                 'constraint'        => '255'
@@ -45,7 +64,10 @@ class Migration_Users extends CI_Migration
         // Buat tabel users
         $this->dbforge->create_table($this->tableName);
 		$this->db->insert($this->tableName, [
+            'first_name'   => 'Admin',
+            'last_name'   => null,
             'username'   => 'admin',
+			'telephone' => '081778899221',
 			'password'   => password_hash('Password1', PASSWORD_BCRYPT),
 			'role_id'    => 1,
 			'email'      => 'admin@mail.com',
@@ -56,9 +78,6 @@ class Migration_Users extends CI_Migration
 
     public function down()
     {
-        // Hapus tabel users
         $this->dbforge->drop_table($this->tableName);
     }
 }
-
-/* End of file 20240606231741_users.php and path \application\migrations\20240606231741_users.php */

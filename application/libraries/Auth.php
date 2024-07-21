@@ -79,6 +79,36 @@ class Auth {
 		return false;
 	}
 
+	public function isAdmin()
+	{
+		if ($this->check()) {
+			$get = $this->CI->user->find($this->CI->session->id);
+
+			if ($get->role_id == 1) {
+				return true;
+			}
+
+			return false;
+		}
+
+		return false;
+	}
+
+	public function isMember()
+	{
+		if ($this->check()) {
+			$get = $this->CI->user->find($this->CI->session->id);
+
+			if ($get->role_id == 2) {
+				return true;
+			}
+
+			return false;
+		}
+
+		return false;
+	}
+
 	/**
 	 * Keluar dari sesi.
 	 *
@@ -112,12 +142,11 @@ class Auth {
 		   if (!empty($hakAksesId)) {
 			   	 if (is_array($hakAksesId)) {
 			   	 	if (!in_array($this->user()->role_id, $hakAksesId)) {
-						$this->CI->session->set_flashdata('warning', 'Anda tidak dapat mengakses halaman ini.');
-						return /** @scrutinizer ignore-call */ redirect(array_key_exists('HTTP_REFERER', $_SERVER) ? $_SERVER['HTTP_REFERER'] : /** @scrutinizer ignore-call */base_url('/'));
+						return show_error("Anda tidak diizinkan untuk mengakses sumber daya ini.", 401, "Akses Tidak Diizinkan");
 					} 
 			   	 } else {
 					if ($this->user()->role_id != $hakAksesId) {
-						return show_404();
+						return show_error("Anda tidak diizinkan untuk mengakses sumber daya ini.", 401, "Akses Tidak Diizinkan");
 					} 
 				}
 			}
